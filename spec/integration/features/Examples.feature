@@ -5,7 +5,7 @@ Feature: Example feature
 # Other Scenario Tags
 # @ten.negate
 # @ten.succeed
-# @ten.negate
+# @ten.fail
 
 @QA @UI @Example
 @ten.fze.tid=000000 @ten.data.source=./data/example.json @ten.data.remap=./data/example_remap.rb
