@@ -1,8 +1,6 @@
 # Cukewrapper
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/cukewrapper`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+does some wrapping magic
 
 ## Installation
 
@@ -22,7 +20,36 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+`cucumber`
+```gherkin
+@ten.fze.managed
+@ten.fze.pid=000000
+Feature: Example feature
+
+# Other Scenario Tags
+# @ten.negate
+# @ten.succeed
+# @ten.negate
+
+@QA @UI @Example
+@ten.fze.tid=000000 @ten.data.source=./data/example.json @ten.data.remap=./data/example_remap.rb
+Scenario Outline: Example Scenario
+    Given I am doing something in my app
+     When I try to do it
+     Then It succeeds
+        | Path                               | Change           |
+        | $.basketName                       | <basketName>     |
+        | $.date                             | <date>           |
+        | $.items[*].price                   | 10.00            |
+        | $.items[1]                         | ~{"price":20.00} |
+        | $.items[?(@.name == 'Titos')].kind | "Vodka"          |
+        | $.foo                              | "baz"            |
+
+Examples:
+    | basketName                                     | date         |
+    | ~"Trader Joe's"                                | #Time.now    |
+    | #Faker::Name.initials(number: 2) + "'s Shoppe" | "10/30/2021" |
+```
 
 ## Development
 

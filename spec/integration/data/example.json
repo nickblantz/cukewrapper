@@ -1,0 +1,15 @@
+{
+    "basketName": "Example Basket",
+    "date": "01/01/2021" ,
+    "items": [
+        {
+            "kind": "Alcohol",
+            "name": "Titos",
+            "price": 0.00
+        }, {
+            "kind": "Soda",
+            "name": "Pepsi",
+            "price": 0.00
+        }
+    ]
+}

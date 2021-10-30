@@ -1,0 +1,7 @@
+source "https://rubygems.org"
+  gem 'cucumber'
+  gem 'faker'
+  gem 'json'
+  gem 'jsonpath'
+
+  gem 'cukewrapper', path: '../..'
