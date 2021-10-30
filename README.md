@@ -20,7 +20,15 @@ Or install it yourself as:
 
 ## Usage
 
-`cucumber`
+```bash
+gem build cukewrapper.gemspec && gem install --local cukewrapper-0.1.0.gem
+cd spec/integration
+bundler install
+cucumber
+```
+
+## Example Feature
+
 ```gherkin
 @ten.fze.managed
 @ten.fze.pid=000000
@@ -40,15 +48,16 @@ Scenario Outline: Example Scenario
         | Path                               | Change           |
         | $.basketName                       | <basketName>     |
         | $.date                             | <date>           |
+        | $.coupons                          | <coupons>        |
         | $.items[*].price                   | 10.00            |
         | $.items[1]                         | ~{"price":20.00} |
         | $.items[?(@.name == 'Titos')].kind | "Vodka"          |
         | $.foo                              | "baz"            |
 
 Examples:
-    | basketName                                     | date         |
-    | ~"Trader Joe's"                                | #Time.now    |
-    | #Faker::Name.initials(number: 2) + "'s Shoppe" | "10/30/2021" |
+    | basketName                                     | date         | coupons                   |
+    | ~"Trader Joe's"                                | #Time.now    | ~["604222ac", "eb3f6967"] |
+    | #Faker::Name.initials(number: 2) + "'s Shoppe" | "10/30/2021" | ["604222ac", "eb3f6967"]  |
 ```
 
 ## Development

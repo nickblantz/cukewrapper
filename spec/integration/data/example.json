@@ -1,6 +1,7 @@
 {
     "basketName": "Example Basket",
     "date": "01/01/2021" ,
+    "coupons": ["172b11af", "f97854a0"],
     "items": [
         {
             "kind": "Alcohol",

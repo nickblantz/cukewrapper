@@ -15,9 +15,9 @@ module Cukewrapper
       external_remap!()
       inline_remap!()
       begin
-        File.open("reports/#{@config.scenario_id}.json", 'w') { |file|
+        File.open("reports/#{@config.scenario_id}.json", 'w') do |file|
           file.write(JSON.pretty_generate(self))
-        }
+        end
       rescue => exception
         is_failure = true
       ensure
@@ -65,19 +65,27 @@ module Cukewrapper
     def value_remapper(raw)
       lambda do |value|
         if raw[0] == '~'
-          new_hash = JSON.parse(raw[1..])
-          return new_hash unless new_hash.class == Hash
-
-          new_hash.each do |k, v|
-            value[k] = v
-          end
-
-          value
+          remapper_merge(value, raw[1..])
         elsif raw[0] == '#'
           eval raw[1..]
         else 
-          JSON.parse(raw, {:quirks_mode => true})
+          JSON.parse(raw)
         end
+      end
+    end
+
+    def remapper_merge(value, raw)
+      parsed = JSON.parse(raw)
+      case parsed
+      when Array
+        value + parsed
+      when Hash
+        parsed.each do |k, v|
+          value[k] = v
+        end
+        value
+      else
+        parsed
       end
     end
   end

@@ -16,12 +16,13 @@ Scenario Outline: Example Scenario
         | Path                               | Change           |
         | $.basketName                       | <basketName>     |
         | $.date                             | <date>           |
+        | $.coupons                          | <coupons>        |
         | $.items[*].price                   | 10.00            |
         | $.items[1]                         | ~{"price":20.00} |
         | $.items[?(@.name == 'Titos')].kind | "Vodka"          |
         | $.foo                              | "baz"            |
 
 Examples:
-    | basketName                                     | date         |
-    | ~"Trader Joe's"                                | #Time.now    |
-    | #Faker::Name.initials(number: 2) + "'s Shoppe" | "10/30/2021" |
+    | basketName                                     | date         | coupons                   |
+    | ~"Trader Joe's"                                | #Time.now    | ~["604222ac", "eb3f6967"] |
+    | #Faker::Name.initials(number: 2) + "'s Shoppe" | "10/30/2021" | ["604222ac", "eb3f6967"]  |
