@@ -1,6 +1,6 @@
 module Cukewrapper
   class Config
-    @@tag_pattern = /^@(?<path>ten\.[a-zA-Z\.]+)(?:=(?<value>.*))?$/
+    @@tag_pattern = /^@(?<path>ten(?:\.[a-zA-Z]+)+)(?:=(?<value>.*))?$/
   
     attr_reader :scenario_id, :metadata, :inline_remaps
   

@@ -68,14 +68,20 @@ module Cukewrapper
           remapper_merge(value, raw[1..])
         elsif raw[0] == '#'
           eval raw[1..]
-        else 
+        else
+          return nil if raw == ''
           JSON.parse(raw)
         end
       end
     end
 
     def remapper_merge(value, raw)
-      parsed = JSON.parse(raw)
+      return value if raw == ''
+      if raw[0] == '#'
+        parsed = eval raw[1..]
+      else
+        parsed = JSON.parse(raw)
+      end
       case parsed
       when Array
         value + parsed
