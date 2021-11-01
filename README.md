@@ -49,18 +49,18 @@ Scenario Outline: Example Scenario
         | $.date                             | <date>             |
         | $.coupons                          | <coupons>          |
         # Each item's price                  # Overriding a value #
-        | $.items[*].price                   | 10.00              | 
+        | $.items[*].price                   | 10.00              |
         # The item at index 1                # Merging a Hash     #
-        | $.items[1]                         | ~#{'price'=>20.00} | 
+        | $.items[1]                         | ~#{'price'=>20.00} |
         # Each item named Tito's kind        # Does nothing       #
-        | $.items[?(@.name == 'Titos')].kind | ~"Vodka"           | 
+        | $.items[?(@.name == 'Titos')].kind | ~"Vodka"           |
 
 Examples:
     | basketName                                                   | date         | coupons                   |
     # Using Faker to generate initials                             # Current time # Merging Array             #
-    | #Faker::Name.initials(number: 2) + "'s Shoppe"               | #Time.now    | ~["604222ac", "eb3f6967"] | 
-    # Creating a Hash using Faker                                  #              # "Do Nothing" merge        #
-    | #{ name: "#{Faker::Name.first_name}'s Shoppe", type: 'LLC' } | "10/30/2021" | ~                         | 
+    | #Faker::Name.initials(number: 2) + "'s Shoppe"               | #Time.now    | ~["604222ac", "eb3f6967"] |
+    # Creating a Hash using Faker                                  # Sets to null # "Do Nothing" merge        #
+    | #{ name: "#{Faker::Name.first_name}'s Shoppe", type: 'LLC' } |              | ~                         |
 ```
 
 ## Development
