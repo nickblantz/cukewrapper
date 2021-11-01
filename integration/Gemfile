@@ -2,4 +2,4 @@
 
 source 'https://rubygems.org'
 
-gem 'cukewrapper', path: '../..'
+gem 'cukewrapper', path: '..'

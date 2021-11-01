@@ -1,10 +1,55 @@
-remap ::= json | merge | eval;
+Remap   : JSONText 
+        | Merge
+        | Eval
+        ;
 
-merge ::= merge prefix, [ merge root ];
-merge root ::= eval | json object | json array;
-merge prefix ::= '~';
+Merge   : MergePrefix, [ MergeRoot ];
 
-eval ::= eval prefix, [ ruby code ];
-eval prefix ::= '#';
+MergePrefix : '~';
 
-json ::= json object | json array | string | number | boolean | null;
+MergeRoot   : Eval
+            | JSONObject
+            | JSONArray
+            ;
+                    
+Eval    : EvalPrefix, [ VALID_RUBY_CODE ];
+
+EvalPrefix  : '#';
+
+JSONText    : JSONValue;
+
+JSONValue   : JSONNullLiteral
+            | JSONBooleanLiteral
+            | JSONString
+            | JSONNumber
+            | JSONObject
+            | JSONArray
+            ;
+
+JSONString  : STRING;
+
+JSONNullLiteral : NULL;
+
+JSONNumber  : NUMBER;
+
+JSONBooleanLiteral  : TRUE
+                    | FALSE
+                    ;
+
+JSONObject  : '{' '}'
+            | '{' JSONMemberList '}'
+            ;
+
+JSONMember  : JSONString ':' JSONValue;
+
+JSONMemberList  : JSONMember
+                | JSONMemberList ',' JSONMember
+                ;
+
+JSONArray   : '[' ']'
+            | '[' JSONElementList ']'
+            ;
+
+JSONElementList : JSONValue
+                | JSONElementList ',' JSONValue
+                ;
