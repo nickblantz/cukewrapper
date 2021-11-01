@@ -16,13 +16,16 @@ Scenario Outline: Example Scenario
         | $.basketName                       | <basketName>       |
         | $.date                             | <date>             |
         | $.coupons                          | <coupons>          |
-        | $.items[*].price                   | 10.00              | # Overriding a value
-        | $.items[1]                         | ~#{'price'=>20.00} | # Merging an evaluated Hash
-        | $.items[?(@.name == 'Titos')].kind | "Vodka"            | # Filtering by a field's value
-        | $.foo                              | ~"baz"             | # Merging a string does nothing
+        # Each item's price                  # Overriding a value #
+        | $.items[*].price                   | 10.00              | 
+        # The item at index 1                # Merging a Hash     #
+        | $.items[1]                         | ~#{'price'=>20.00} | 
+        # Each item named Tito's kind        # Does nothing       #
+        | $.items[?(@.name == 'Titos')].kind | ~"Vodka"           | 
 
 Examples:
     | basketName                                                   | date         | coupons                   |
-    | "Trader Joe's"                                               | #Time.now    | ~["604222ac", "eb3f6967"] | # Merging an array, Getting the current date and time
-    | #Faker::Name.initials(number: 2) + "'s Shoppe"               | "10/30/2021" | ["604222ac", "eb3f6967"]  | # Using Faker to generate initials
-    | #{ name: "#{Faker::Name.first_name}'s Shoppe", type: 'LLC' } | "10/30/2021" | ~                         | # Creating a Hash using Faker and the "Do Nothing" usage of merge
+    # Using Faker to generate initials                             # Current time # Merging Array             #
+    | #Faker::Name.initials(number: 2) + "'s Shoppe"               | #Time.now    | ~["604222ac", "eb3f6967"] | 
+    # Creating a Hash using Faker                                  #              # "Do Nothing" merge        #
+    | #{ name: "#{Faker::Name.first_name}'s Shoppe", type: 'LLC' } | "10/30/2021" | ~                         | 
