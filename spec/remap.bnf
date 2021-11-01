@@ -1,0 +1,10 @@
+remap ::= json | merge | eval;
+
+merge ::= merge prefix, [ merge root ];
+merge root ::= eval | json object | json array;
+merge prefix ::= '~';
+
+eval ::= eval prefix, [ ruby code ];
+eval prefix ::= '#';
+
+json ::= json object | json array | string | number | boolean | null;
