@@ -1,60 +1,90 @@
+# frozen_string_literal: true
+
+# Wraps your gherkin!
 module Cukewrapper
   require 'faker'
   require 'json'
   require 'jsonpath'
 
+  # Executes the test and sets the result
   class Executor
     def initialize(config)
       @config = config
       @data = {}
     end
 
-    def exec()
-      is_failure = false
-      load_data!()
-      external_remap!()
-      inline_remap!()
+    def exec
+      test_failed = false
+      load_data!
       begin
-        File.open("reports/#{@config.scenario_id}.json", 'w') do |file|
-          file.write(JSON.pretty_generate(self))
-        end
-      rescue => exception
-        is_failure = true
+        write_report
+      rescue StandardError => e
+        test_failed = true
       ensure
-        raise 'Scenario tagged to fail' if @config.metadata['fail']
-        raise 'Scenario tagged to negate' if !is_failure && @config.metadata['negate']
-        return if is_failure && (@config.metadata['negate'] || @config.metadata['succeed'])
-        raise exception if is_failure
+        set_result(test_failed, e)
       end
     end
 
-    def as_json(options={})
+    def to_hash
       {
-        config: @config.as_json,
+        config: @config.to_hash,
         data: @data
       }
     end
 
     def to_json(*options)
-      as_json(*options).to_json(*options)
+      to_hash.to_json(*options)
     end
 
     private
 
-    def load_data!()
-      if @config.metadata.key?('data') && @config.metadata['data'].key?('source')
-        @data = JSON.parse(File.read(@config.metadata['data']['source']))
+    def write_report
+      File.open("reports/#{@config.scenario_id}.json", 'w') do |file|
+        file.write(JSON.pretty_generate(self))
       end
     end
 
-    def external_remap!()
-      if @config.metadata.key?('data') && @config.metadata['data'].key?('remap')
-        load @config.metadata['data']['remap']
-        @data = remap(@data)
-      end
+    def set_result(test_failed, exception)
+      raise 'Scenario tagged to fail' if fail?
+      raise 'Scenario tagged to negate' if negate_success?(test_failed)
+      return if negate_failure?(test_failed)
+      raise exception if test_failed
     end
 
-    def inline_remap!()
+    def fail?
+      @config.metadata['fail']
+    end
+
+    def negate_success?(test_failed)
+      !test_failed && @config.metadata['negate']
+    end
+
+    def negate_failure?(test_failed)
+      test_failed && (@config.metadata['negate'] || @config.metadata['succeed'])
+    end
+
+    def succeed?
+      @config.metadata['fail']
+    end
+
+    def load_data!
+      metadata = @config.metadata
+      if metadata.key?('data') && metadata['data'].key?('source')
+        @data = JSON.parse(File.read(metadata['data']['source']))
+      end
+      external_remap!
+      inline_remap!
+    end
+
+    def external_remap!
+      metadata = @config.metadata
+      return unless metadata.key?('data') && metadata['data'].key?('remap')
+
+      load metadata['data']['remap']
+      @data = remap(@data)
+    end
+
+    def inline_remap!
       @config.inline_remaps.each do |remap|
         JsonPath
           .for(@data)
@@ -64,34 +94,41 @@ module Cukewrapper
 
     def value_remapper(raw)
       lambda do |value|
-        if raw[0] == '~'
+        prefix = raw[0]
+        if prefix == '~'
           remapper_merge(value, raw[1..])
-        elsif raw[0] == '#'
-          eval raw[1..]
         else
-          return nil if raw == ''
-          JSON.parse(raw)
+          eval_or_parse(raw)
         end
       end
     end
 
     def remapper_merge(value, raw)
       return value if raw == ''
-      if raw[0] == '#'
-        parsed = eval raw[1..]
-      else
-        parsed = JSON.parse(raw)
-      end
+
+      parsed = eval_or_parse(raw)
+
       case parsed
       when Array
         value + parsed
       when Hash
-        parsed.each do |k, v|
-          value[k] = v
-        end
+        parsed.each { |k, v| value[k] = v }
         value
       else
         parsed
+      end
+    end
+
+    def eval_or_parse(raw)
+      prefix = raw[0]
+      if prefix == '#'
+        # rubocop:disable Security/Eval
+        eval raw[1..]
+        # rubocop:enable Security/Eval
+      else
+        return nil if raw == ''
+
+        JSON.parse(raw)
       end
     end
   end

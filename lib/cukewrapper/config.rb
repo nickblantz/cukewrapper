@@ -1,57 +1,61 @@
+# frozen_string_literal: true
+
+# Wraps your gherkin!
 module Cukewrapper
+  # Configures the executor
   class Config
-    @@tag_pattern = /^@(?<path>ten(?:\.[a-zA-Z]+)+)(?:=(?<value>.*))?$/
-  
+    TAG_PATTERN = /^@(?<path>ten(?:\.[a-zA-Z]+)+)(?:=(?<value>.*))?$/.freeze
+
     attr_reader :scenario_id, :metadata, :inline_remaps
-  
+
     def initialize(scenario)
       @scenario_id = scenario.id
       @metadata = scenario_metadata(scenario)
       @inline_remaps = []
     end
-  
+
     def step_data_handler(*args)
-      if args.size > 0
-        @inline_remaps += args[0].raw[1..]
-          .map { |arr| { path: arr[0], value: arr[1] } }
-      end
+      return if args.empty?
+
+      @inline_remaps += args[0].raw[1..]
+        .map { |arr| { path: arr[0], value: arr[1] } }
     end
-  
-    def as_json(options={})
+
+    def to_hash
       {
         scenario_id: @scenario_id,
         metadata: @metadata,
-        inline_remaps: @inline_remaps,
+        inline_remaps: @inline_remaps
       }
     end
-  
+
     def to_json(*options)
-      as_json(*options).to_json(*options)
+      to_hash.to_json(*options)
     end
-  
+
     private
-  
+
     def scenario_metadata(scenario)
       metadata = {}
-      scenario.tags
-        .map(&get_tag_match())
-        .each(&set_metadata!(metadata))
+      scenario
+        .tags
+        .map(&to_captures)
+        .each(&modify_metadata!(metadata))
       metadata
     end
-  
-    def get_tag_match
+
+    def to_captures
       lambda do |tag|
-        if matches = @@tag_pattern.match(tag.name)
+        if (matches = TAG_PATTERN.match(tag.name))
           matches.named_captures
-        else
-          nil
         end
       end
     end
-  
-    def set_metadata!(hash)
+
+    def modify_metadata!(hash)
       lambda do |data|
         return if data.nil?
+
         cur_hash = hash
         idents = data['path'].split('.')[1..]
         idents.each_with_index do |ident, i|

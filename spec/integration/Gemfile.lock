@@ -1,7 +1,11 @@
 PATH
-  remote: ../cukewrapper
+  remote: ../..
   specs:
     cukewrapper (0.1.0)
+      cucumber (~> 7.0)
+      faker (~> 2.0)
+      json (~> 2.0)
+      jsonpath (~> 1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -60,11 +64,7 @@ PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
-  cucumber
   cukewrapper!
-  faker
-  json
-  jsonpath
 
 BUNDLED WITH
    2.1.4

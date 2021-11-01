@@ -1,7 +1,5 @@
-source "https://rubygems.org"
-  gem 'cucumber'
-  gem 'faker'
-  gem 'json'
-  gem 'jsonpath'
+# frozen_string_literal: true
 
-  gem 'cukewrapper', path: '../..'
+source 'https://rubygems.org'
+
+gem 'cukewrapper', path: '../..'

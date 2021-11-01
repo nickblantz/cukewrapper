@@ -1,0 +1,29 @@
+AllCops:
+  TargetRubyVersion: 2.6
+
+Layout/EndOfLine:
+  Enabled: false
+  EnforcedStyle: lf
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Lint/RaiseException:
+  Enabled: true
+Lint/StructNewOverride:
+  Enabled: true
+
+Metrics/ClassLength:
+  Max: 128
+Metrics/MethodLength:
+  Max: 16
+
+Style/ExponentialNotation:
+  Enabled: true
+Style/HashEachMethods:
+  Enabled: true
+Style/HashTransformKeys:
+  Enabled: true
+Style/HashTransformValues:
+  Enabled: true
