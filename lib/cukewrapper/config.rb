@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'cukewrapper/util/hash_builder'
+
 # Wraps your gherkin!
 module Cukewrapper
   # Configures the executor
@@ -8,17 +10,32 @@ module Cukewrapper
 
     attr_reader :scenario_id, :metadata, :inline_remaps
 
-    def initialize(scenario)
+    def initialize(scenario, logger)
+      @logger = logger
       @scenario_id = scenario.id
-      @metadata = scenario_metadata(scenario)
+      @metadata = scenario_metadata(scenario.tags)
       @inline_remaps = []
+      @logger.debug("#{self.class.name}\##{__method__}") { 'Config initialized' }
     end
 
     def step_data_handler(*args)
       return if args.empty?
 
+      @logger.debug("#{self.class.name}\##{__method__}") { 'Setting inline remappers' }
       @inline_remaps += args[0].raw[1..]
         .map { |arr| { path: arr[0], value: arr[1] } }
+    end
+
+    def fail?
+      @metadata.key?('fail') && @metadata['fail']
+    end
+
+    def negate?
+      @metadata.key?('negate') && @metadata['negate']
+    end
+
+    def succeed?
+      @metadata.key?('succeed') && @metadata['succeed']
     end
 
     def to_hash
@@ -35,36 +52,18 @@ module Cukewrapper
 
     private
 
-    def scenario_metadata(scenario)
-      metadata = {}
-      scenario
-        .tags
-        .map(&to_captures)
-        .each(&modify_metadata!(metadata))
-      metadata
+    def scenario_metadata(tags)
+      builder = Cukewrapper::Util::HashBuilder.new({}, @logger)
+      @logger.debug("#{self.class.name}\##{__method__}") { 'Setting scenario metadata' }
+      tags.map(&to_captures).each(&builder.build!)
+      builder.result
     end
 
     def to_captures
       lambda do |tag|
         if (matches = TAG_PATTERN.match(tag.name))
+          @logger.debug("#{self.class.name}\##{__method__}") { "Matched tag '#{tag.name}'" }
           matches.named_captures
-        end
-      end
-    end
-
-    def modify_metadata!(hash)
-      lambda do |data|
-        return if data.nil?
-
-        cur_hash = hash
-        idents = data['path'].split('.')[1..]
-        idents.each_with_index do |ident, i|
-          if i == idents.size - 1
-            cur_hash[ident] = data['value'] || true
-          else
-            cur_hash[ident] = {} unless cur_hash.key?(ident)
-            cur_hash = cur_hash[ident]
-          end
         end
       end
     end

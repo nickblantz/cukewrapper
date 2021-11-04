@@ -11,11 +11,13 @@ Gem::Specification.new do |spec|
   spec.description = File.read('README.md')
   spec.homepage = 'https://github.com/nickblantz'
   spec.license = 'MIT'
-  spec.required_ruby_version = Gem::Requirement.new('>= 2.3.0')
+  spec.required_ruby_version = Gem::Requirement.new('>= 2.6.0')
   spec.files = [
     'lib/cukewrapper.rb',
     'lib/cukewrapper/config.rb',
-    'lib/cukewrapper/executor.rb'
+    'lib/cukewrapper/executor.rb',
+    'lib/cukewrapper/util/hash_builder.rb',
+    'lib/cukewrapper/util/remapper.rb'
   ]
   spec.add_development_dependency 'rubocop', '~> 1.0'
   spec.add_runtime_dependency 'cucumber', '~> 7.0'
