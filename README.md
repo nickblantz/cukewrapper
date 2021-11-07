@@ -1,36 +1,50 @@
 # Cukewrapper
 
-does some wrapping magic
+This gem allows you to glue Gherkin to tests using tags, rather than step 
+definitions. In addition to tags, you can also provide information to 
+scenarios using Cucumber Datatables. 
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this to your Gemfile:
 
 ```ruby
 gem 'cukewrapper'
+
+# Optional plugins
+group :cukewrapper_plugins do
+  gem 'cukewrapper_data'
+  gem 'cukewrapper_inline_jsonpath'
+  gem 'cukewrapper_mocktarget'
+  # ...
+end
 ```
-
-And then execute:
-
-    $ bundle install
-
-Or install it yourself as:
-
-    $ gem install cukewrapper
 
 ## Usage
 
-```bash
-gem build cukewrapper.gemspec && gem install --local cukewrapper-0.1.0.gem
-cd integration
-bundler install
-cucumber
+Create a `cukewrapper.yml` file at the root of your directory
+
+```yaml
+plugins:
+- mock
+- data
+mock:
+  endpoint: http://localhost:8080
+data:
+  mode: json
+  inline_remap: jsonpath
+```
+
+Require the gem in your Cucumber test suite
+
+```ruby
+require 'cukewrapper'
 ```
 
 ## Example Feature
 
 ```gherkin
-@ten.fze.managed @ten.fze.pid=000000
+@ten.mock.managed @ten.mock.pid=000000
 Feature: Example feature
 
 # Other Scenario Tags
@@ -39,12 +53,12 @@ Feature: Example feature
 # @ten.fail
 
 @QA @UI @Example
-@ten.fze.tid=000000 @ten.data.source=./data/example.json @ten.data.remap=./data/example_remap.rb
+@ten.mock.tid=000000 @ten.data.source=./data/example.json @ten.data.remap=./data/example_remap.rb
 Scenario Outline: Example Scenario
     Given I am doing something in my app
      When I try to do it
      Then It succeeds
-        | Path                               | Change             |
+        | JSONPath                           | Value              |
         | $.basketName                       | <basketName>       |
         | $.date                             | <date>             |
         | $.coupons                          | <coupons>          |
@@ -53,7 +67,7 @@ Scenario Outline: Example Scenario
         # The item at index 1                # Merging a Hash     #
         | $.items[1]                         | ~#{'price'=>20.00} |
         # Each item named Tito's kind        # Does nothing       #
-        | $.items[?(@.name == 'Titos')].kind | ~"Vodka"           |
+        | $.items[?(@.name == 'Lays')].kind  | ~"Chips"           |
 
 Examples:
     | basketName                                                   | date         | coupons                   |
@@ -71,7 +85,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/cukewrapper. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/cukewrapper/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/nickblantz/cukewrapper. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/nickblantz/cukewrapper/blob/master/CODE_OF_CONDUCT.md).
 
 
 ## License
@@ -80,4 +94,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Cukewrapper project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/cukewrapper/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Cukewrapper project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/nickblantz/cukewrapper/blob/master/CODE_OF_CONDUCT.md).

@@ -3,34 +3,45 @@
 require 'cucumber'
 require 'cukewrapper/config'
 require 'cukewrapper/executor'
-require 'cukewrapper/util/hash_builder'
+require 'cukewrapper/hooks'
+require 'cukewrapper/runtime'
+require 'cukewrapper/plugin'
+require 'cukewrapper/plugin_manager'
+require 'cukewrapper/remapper'
+require 'cukewrapper/validator'
+
 require 'logger'
 
-logger = Logger.new($stdout)
-logger.level = Logger::DEBUG
-
 Before do |scenario|
-  logger.debug('Cukewrapper::Hooks#before_scenario') { "Before '#{scenario.name}' initiated" }
-  @config = Cukewrapper::Config.new scenario, logger
-  logger.debug('Cukewrapper::Hooks#before_scenario') { "Before '#{scenario.name}' completed" }
+  Cukewrapper.log.debug('Cukewrapper::Hooks#before_scenario') { "Before '#{scenario.name}' initiated" }
+  @runtime = Cukewrapper::Runtime.new
+  @runtime.before_scenario(scenario)
+  Cukewrapper.log.debug('Cukewrapper::Hooks#before_scenario') { "Before '#{scenario.name}' completed" }
 end
 
 Given(/^.*$/) do |*args|
-  @config.step_data_handler(*args)
+  @runtime.step_data_handler(*args)
 end
 
 After do |scenario|
-  logger.debug('Cukewrapper::Hooks#after_scenario') { "After '#{scenario.name}' initiated" }
-  @executor = Cukewrapper::Executor.new @config, logger
-  @executor.exec
-  logger.debug('Cukewrapper::Hooks#after_scenario') { "After '#{scenario.name}' completed" }
+  Cukewrapper.log.debug('Cukewrapper::Hooks#after_scenario') { "After '#{scenario.name}' initiated" }
+  @runtime.after_scenario(scenario)
+  Cukewrapper.log.debug('Cukewrapper::Hooks#after_scenario') { "After '#{scenario.name}' completed" }
 
-  File.open("reports/#{@config.scenario_id}.json", 'w') do |file|
-    file.write(JSON.pretty_generate(@executor))
-  end
+  # File.open("reports/#{scenario.id}.json", 'w') do |file|
+  #   file.write(JSON.pretty_generate(nil))
+  # end
 end
 
 # Wraps your gherkin!
 module Cukewrapper
   class Error < StandardError; end
+
+  class << self
+    def log
+      @log ||= Logger.new($stdout)
+      @log.level = Logger::ERROR
+      @log
+    end
+  end
 end

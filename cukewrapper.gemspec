@@ -16,12 +16,15 @@ Gem::Specification.new do |spec|
     'lib/cukewrapper.rb',
     'lib/cukewrapper/config.rb',
     'lib/cukewrapper/executor.rb',
+    'lib/cukewrapper/hooks.rb',
+    'lib/cukewrapper/metatags.rb',
+    'lib/cukewrapper/plugin.rb',
+    'lib/cukewrapper/plugin_manager.rb',
+    'lib/cukewrapper/remapper.rb',
+    'lib/cukewrapper/runtime.rb',
     'lib/cukewrapper/util/hash_builder.rb',
-    'lib/cukewrapper/util/remapper.rb'
+    'lib/cukewrapper/validator.rb'
   ]
   spec.add_development_dependency 'rubocop', '~> 1.0'
   spec.add_runtime_dependency 'cucumber', '~> 7.0'
-  spec.add_runtime_dependency 'faker', '~> 2.0'
-  spec.add_runtime_dependency 'json', '~> 2.0'
-  spec.add_runtime_dependency 'jsonpath', '~> 1.0'
 end

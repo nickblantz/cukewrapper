@@ -1,0 +1,8 @@
+plugins:
+- mock
+- data
+mock:
+  endpoint: http://localhost:8080
+data:
+  mode: json
+  inline_remap: jsonpath

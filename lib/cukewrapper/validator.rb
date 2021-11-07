@@ -4,6 +4,6 @@
 module Cukewrapper
   require 'cukewrapper/plugin'
 
-  # Wrap game strong
-  Executor = Class.new(Cukewrapper::Plugin)
+  # Ensuring success
+  Validator = Class.new(Cukewrapper::Plugin)
 end

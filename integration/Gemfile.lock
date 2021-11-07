@@ -1,11 +1,29 @@
 PATH
+  remote: ../../cukewrapper_data
+  specs:
+    cukewrapper_data (0.1.0)
+      cukewrapper (~> 0.0)
+      json (~> 2.0)
+
+PATH
+  remote: ../../cukewrapper_inline_jsonpath
+  specs:
+    cukewrapper_inline_jsonpath (0.1.0)
+      cukewrapper (~> 0.0)
+      faker (~> 2.0)
+      json (~> 2.0)
+      jsonpath (~> 1.0)
+
+PATH
+  remote: ../../cukewrapper_mocktarget
+  specs:
+    cukewrapper_mocktarget (0.1.0)
+
+PATH
   remote: ..
   specs:
     cukewrapper (0.1.0)
       cucumber (~> 7.0)
-      faker (~> 2.0)
-      json (~> 2.0)
-      jsonpath (~> 1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -65,6 +83,9 @@ PLATFORMS
 
 DEPENDENCIES
   cukewrapper!
+  cukewrapper_data!
+  cukewrapper_inline_jsonpath!
+  cukewrapper_mocktarget!
 
 BUNDLED WITH
    2.1.4

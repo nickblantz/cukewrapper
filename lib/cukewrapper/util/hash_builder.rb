@@ -5,8 +5,7 @@ module Cukewrapper
   module Util
     # Helps build hashes
     class HashBuilder
-      def initialize(hash, logger)
-        @logger = logger
+      def initialize(hash)
         @internal = hash
         @cur_hash = @internal
       end
@@ -19,7 +18,7 @@ module Cukewrapper
           new_value = data['value'] || true
           idents = data['path'].split('.')[1..]
 
-          @logger.debug("#{self.class.name}\##{__method__}") { "Setting path '#{data['path']}' to #{new_value}" }
+          Cukewrapper.log.debug("#{self.class.name}\##{__method__}") { "#{data['path']} => #{new_value}" }
           idents.each_with_index(&set_value!(idents.size, new_value))
         end
       end

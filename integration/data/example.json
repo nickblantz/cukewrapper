@@ -4,8 +4,8 @@
     "coupons": ["172b11af", "f97854a0"],
     "items": [
         {
-            "kind": "Alcohol",
-            "name": "Titos",
+            "kind": "Cookies",
+            "name": "Lays",
             "price": 0.00
         }, {
             "kind": "Soda",

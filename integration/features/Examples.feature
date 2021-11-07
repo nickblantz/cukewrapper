@@ -1,4 +1,4 @@
-@ten.fze.managed @ten.fze.pid=000000
+@ten.mock.managed @ten.mock.pid=000000
 Feature: Example feature
 
 # Other Scenario Tags
@@ -7,12 +7,12 @@ Feature: Example feature
 # @ten.fail
 
 @QA @UI @Example
-@ten.fze.tid=000000 @ten.data.source=./data/example.json @ten.data.remap=./data/example_remap.rb
+@ten.mock.tid=000000 @ten.data.source=./data/example.json @ten.data.remap=./data/example_remap.rb
 Scenario Outline: Example Scenario
     Given I am doing something in my app
      When I try to do it
      Then It succeeds
-        | Path                               | Change             |
+        | JSONPath                           | Value              |
         | $.basketName                       | <basketName>       |
         | $.date                             | <date>             |
         | $.coupons                          | <coupons>          |
@@ -21,7 +21,7 @@ Scenario Outline: Example Scenario
         # The item at index 1                # Merging a Hash     #
         | $.items[1]                         | ~#{'price'=>20.00} |
         # Each item named Tito's kind        # Does nothing       #
-        | $.items[?(@.name == 'Titos')].kind | ~"Vodka"           |
+        | $.items[?(@.name == 'Lays')].kind  | ~"Chips"           |
 
 Examples:
     | basketName                                                   | date         | coupons                   |

@@ -1,71 +1,50 @@
 # frozen_string_literal: true
 
-require 'cukewrapper/util/hash_builder'
-
-# Wraps your gherkin!
 module Cukewrapper
-  # Configures the executor
+  # Plugging in
   class Config
-    TAG_PATTERN = /^@(?<path>ten(?:\.[a-zA-Z]+)+)(?:=(?<value>.*))?$/.freeze
+    require 'yaml'
 
-    attr_reader :scenario_id, :metadata, :inline_remaps
+    CONFIG_FILE = 'cukewrapper.yml' unless const_defined?(:CONFIG_FILE)
 
-    def initialize(scenario, logger)
-      @logger = logger
-      @scenario_id = scenario.id
-      @metadata = scenario_metadata(scenario.tags)
-      @inline_remaps = []
-      @logger.debug("#{self.class.name}\##{__method__}") { 'Config initialized' }
+    # rubocop:disable Style/ClassVars
+    @@config_loaded = false
+    @@config = {}
+    # rubocop:enable Style/ClassVars
+
+    def initialize
+      load
     end
 
-    def step_data_handler(*args)
-      return if args.empty?
+    def [](key)
+      return nil unless @@config.key?(key)
 
-      @logger.debug("#{self.class.name}\##{__method__}") { 'Setting inline remappers' }
-      @inline_remaps += args[0].raw[1..]
-        .map { |arr| { path: arr[0], value: arr[1] } }
-    end
-
-    def fail?
-      @metadata.key?('fail') && @metadata['fail']
-    end
-
-    def negate?
-      @metadata.key?('negate') && @metadata['negate']
-    end
-
-    def succeed?
-      @metadata.key?('succeed') && @metadata['succeed']
-    end
-
-    def to_hash
-      {
-        scenario_id: @scenario_id,
-        metadata: @metadata,
-        inline_remaps: @inline_remaps
-      }
-    end
-
-    def to_json(*options)
-      to_hash.to_json(*options)
+      @@config[key]
     end
 
     private
 
-    def scenario_metadata(tags)
-      builder = Cukewrapper::Util::HashBuilder.new({}, @logger)
-      @logger.debug("#{self.class.name}\##{__method__}") { 'Setting scenario metadata' }
-      tags.map(&to_captures).each(&builder.build!)
-      builder.result
+    def load
+      if @@config_loaded
+        Cukewrapper.log.debug("#{self.class.name}\##{__method__}") { 'Config has already been loaded' }
+        return
+      end
+
+      load_from_file
+
+      # rubocop:disable Style/ClassVars
+      @@config_loaded = true
+      @@config_loaded.freeze
+      @@config.freeze
+      # rubocop:enable Style/ClassVars
+
+      Cukewrapper.log.debug("#{self.class.name}\##{__method__}") { 'Config has been loaded' }
     end
 
-    def to_captures
-      lambda do |tag|
-        if (matches = TAG_PATTERN.match(tag.name))
-          @logger.debug("#{self.class.name}\##{__method__}") { "Matched tag '#{tag.name}'" }
-          matches.named_captures
-        end
-      end
+    def load_from_file
+      # rubocop:disable Style/ClassVars
+      @@config = YAML.load_file(CONFIG_FILE) if File.file?(CONFIG_FILE)
+      # rubocop:enable Style/ClassVars
     end
   end
 end
