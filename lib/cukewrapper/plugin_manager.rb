@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+require 'cukewrapper/plugin'
+require 'cukewrapper/remapper'
+require 'cukewrapper/executor'
+require 'cukewrapper/validator'
+
 module Cukewrapper
   # Managed plugins
   class PluginManager

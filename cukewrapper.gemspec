@@ -15,8 +15,10 @@ Gem::Specification.new do |spec|
   spec.files = [
     'lib/cukewrapper.rb',
     'lib/cukewrapper/config.rb',
+    'lib/cukewrapper/cuke_hooks.rb',
     'lib/cukewrapper/executor.rb',
     'lib/cukewrapper/hooks.rb',
+    'lib/cukewrapper/logging.rb',
     'lib/cukewrapper/metatags.rb',
     'lib/cukewrapper/plugin.rb',
     'lib/cukewrapper/plugin_manager.rb',
