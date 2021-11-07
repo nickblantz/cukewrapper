@@ -12,27 +12,6 @@ require 'cukewrapper/validator'
 
 require 'logger'
 
-Before do |scenario|
-  Cukewrapper.log.debug('Cukewrapper::Hooks#before_scenario') { "Before '#{scenario.name}' initiated" }
-  @runtime = Cukewrapper::Runtime.new
-  @runtime.before_scenario(scenario)
-  Cukewrapper.log.debug('Cukewrapper::Hooks#before_scenario') { "Before '#{scenario.name}' completed" }
-end
-
-Given(/^.*$/) do |*args|
-  @runtime.step_data_handler(*args)
-end
-
-After do |scenario|
-  Cukewrapper.log.debug('Cukewrapper::Hooks#after_scenario') { "After '#{scenario.name}' initiated" }
-  @runtime.after_scenario(scenario)
-  Cukewrapper.log.debug('Cukewrapper::Hooks#after_scenario') { "After '#{scenario.name}' completed" }
-
-  # File.open("reports/#{scenario.id}.json", 'w') do |file|
-  #   file.write(JSON.pretty_generate(nil))
-  # end
-end
-
 # Wraps your gherkin!
 module Cukewrapper
   class Error < StandardError; end
@@ -40,8 +19,27 @@ module Cukewrapper
   class << self
     def log
       @log ||= Logger.new($stdout)
-      @log.level = Logger::ERROR
+      @log.level = Logger::DEBUG
       @log
     end
   end
+end
+
+Cukewrapper::Runtime.setup
+
+Before do |scenario|
+  Cukewrapper.log.debug('Cukewrapper::Hooks#before_scenario') { "Before '#{scenario.name}' initiated" }
+  Cukewrapper::Runtime.reset
+  Cukewrapper::Runtime.before_scenario(scenario)
+  Cukewrapper.log.debug('Cukewrapper::Hooks#before_scenario') { "Before '#{scenario.name}' completed" }
+end
+
+Given(/^.*$/) do |*args|
+  Cukewrapper::Runtime.step_data_handler(*args)
+end
+
+After do |scenario|
+  Cukewrapper.log.debug('Cukewrapper::Hooks#after_scenario') { "After '#{scenario.name}' initiated" }
+  Cukewrapper::Runtime.after_scenario(scenario)
+  Cukewrapper.log.debug('Cukewrapper::Hooks#after_scenario') { "After '#{scenario.name}' completed" }
 end
