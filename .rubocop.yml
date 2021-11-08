@@ -1,7 +1,11 @@
 AllCops:
   NewCops: enable
   TargetRubyVersion: 2.6
-  
+
+Layout/FirstArrayElementIndentation:
+  EnforcedStyle: consistent
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
 Layout/EndOfLine:
   Enabled: false
   EnforcedStyle: lf
@@ -10,3 +14,5 @@ Layout/MultilineMethodCallIndentation:
 
 Metrics/MethodLength:
   Max: 12
+Metrics/BlockLength:
+  IgnoredMethods: ['describe', 'context']

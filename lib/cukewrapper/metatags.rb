@@ -1,18 +1,14 @@
 # frozen_string_literal: true
 
-require 'cukewrapper/util/hash_builder'
-
 module Cukewrapper
   # Super meta bro
   class Metatags
     TAG_PATTERN = /^@(?<path>ten(?:\.[a-zA-Z]+)+)(?:=(?<value>.*))?$/.freeze
 
-    attr_reader :internal, :inline_remaps
-
     def initialize(tags)
-      @internal = scenario_internal(tags)
-      @inline_remaps = []
-      Cukewrapper.log.debug("#{self.class.name}\##{__method__}") { 'Metatags parsed' }
+      @internal = {}
+      build_hash!(@internal, tags)
+      Cukewrapper.log.debug("#{self.class.name}\##{__method__}") { "Initialized: #{@internal}" }
     end
 
     def [](key)
@@ -21,31 +17,8 @@ module Cukewrapper
       @internal[key]
     end
 
-    def step_data_handler(*args)
-      return if args.empty?
-
-      Cukewrapper.log.debug("#{self.class.name}\##{__method__}") { 'Setting inline remappers' }
-      @inline_remaps += args[0].raw[1..]
-        .map { |arr| { path: arr[0], value: arr[1] } }
-    end
-
-    def fail?
-      @internal.key?('fail') && @internal['fail']
-    end
-
-    def negate?
-      @internal.key?('negate') && @internal['negate']
-    end
-
-    def succeed?
-      @internal.key?('succeed') && @internal['succeed']
-    end
-
     def to_hash
-      {
-        internal: @internal,
-        inline_remaps: @inline_remaps
-      }
+      @internal
     end
 
     def to_json(*options)
@@ -54,17 +27,34 @@ module Cukewrapper
 
     private
 
-    def scenario_internal(tags)
-      builder = Util::HashBuilder.new({})
-      Cukewrapper.log.debug("#{self.class.name}\##{__method__}") { 'Setting scenario metatags' }
-      tags.map(&to_captures).each(&builder.build!)
-      builder.result
+    def build_hash!(cur_hash, tags)
+      tags.map(&to_captures).each(&build!(cur_hash))
+    end
+
+    def build!(cur_hash)
+      lambda do |data|
+        return if data.nil?
+
+        new_value = data['value'] || true
+        idents = data['path'].split('.')[1..]
+        idents.each_with_index(&set_value!(cur_hash, idents.size, new_value))
+      end
+    end
+
+    def set_value!(cur_hash, idents_size, new_value)
+      lambda do |ident, index|
+        if index == idents_size - 1
+          cur_hash[ident] = new_value
+        else
+          cur_hash[ident] = {} unless cur_hash.key?(ident)
+          cur_hash = cur_hash[ident]
+        end
+      end
     end
 
     def to_captures
       lambda do |tag|
         if (matches = TAG_PATTERN.match(tag.name))
-          Cukewrapper.log.debug("#{self.class.name}\##{__method__}") { "Matched tag '#{tag.name}'" }
           matches.named_captures
         end
       end
