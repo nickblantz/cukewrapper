@@ -5,5 +5,5 @@ module Cukewrapper
   require 'cukewrapper/plugin'
 
   # Clean up game strong
-  Remapper = Class.new(Cukewrapper::Plugin)
+  Remapper = Class.new(Plugin)
 end

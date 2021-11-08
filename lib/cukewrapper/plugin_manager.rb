@@ -8,32 +8,26 @@ require 'cukewrapper/validator'
 module Cukewrapper
   # Managed plugins
   class PluginManager
-    # rubocop:disable Style/ClassVars
-    @@plugins_loaded = false
-    @@plugins = []
-    # rubocop:enable Style/ClassVars
-
-    def initialize(config = nil)
-      @config = config
-
-      load
+    def initialize
+      @plugins = load_plugins
+      Cukewrapper.log.debug("#{self.class.name}\##{__method__}") { "Loaded with: #{@plugins.join(', ')}" }
     end
 
     def loaded?
-      @@plugins_loaded
+      @plugins_loaded
     end
 
     def plugins
       raise 'Plugins not loaded' unless loaded?
 
-      @@plugins
+      @plugins
     end
 
     def instantiate_plugins
       {
-        remappers: instantiate_plugin(Cukewrapper::Remapper),
-        executors: instantiate_plugin(Cukewrapper::Executor),
-        validators: instantiate_plugin(Cukewrapper::Validator)
+        remappers: instantiate_plugin(Remapper),
+        executors: instantiate_plugin(Executor),
+        validators: instantiate_plugin(Validator)
       }
     end
 
@@ -42,25 +36,14 @@ module Cukewrapper
     def instantiate_plugin(klass)
       klass.descendants.sort.map do |plugin|
         Cukewrapper.log.debug("#{self.class.name}\##{__method__}") { "Instantiate Plugin: #{plugin}" }
-        plugin.new(@config)
+        plugin.new
       end
     end
 
-    def load
-      if @@plugins_loaded
-        Cukewrapper.log.debug("#{self.class.name}\##{__method__}") { 'Plugins have already been loaded' }
-        return
-      end
-
-      load_from_gemfile
-
-      # rubocop:disable Style/ClassVars
-      @@plugins_loaded = true
-      @@plugins_loaded.freeze
-      @@plugins.freeze
-      # rubocop:enable Style/ClassVars
-
-      Cukewrapper.log.debug("#{self.class.name}\##{__method__}") { "Loaded plugins: #{@@plugins.join(', ')}" }
+    def load_plugins
+      plugins = load_from_gemfile
+      @plugins_loaded = true
+      plugins
     end
 
     def load_from_gemfile
@@ -71,9 +54,7 @@ module Cukewrapper
       Bundler.ui.level = :silent
       Bundler.setup
 
-      # rubocop:disable Style/ClassVars
-      @@plugins += Bundler.require(:cukewrapper_plugins).map(&to_plugin_name).compact
-      # rubocop:enable Style/ClassVars
+      Bundler.require(:cukewrapper_plugins).map(&to_plugin_name).compact
     end
 
     def gemfile_exists?

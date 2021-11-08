@@ -5,5 +5,5 @@ module Cukewrapper
   require 'cukewrapper/plugin'
 
   # Wrap game strong
-  Executor = Class.new(Cukewrapper::Plugin)
+  Executor = Class.new(Plugin)
 end

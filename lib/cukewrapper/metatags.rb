@@ -2,11 +2,10 @@
 
 require 'cukewrapper/util/hash_builder'
 
-# Wraps your gherkin!
 module Cukewrapper
   # Super meta bro
   class Metatags
-    TAG_PATTERN = /^@(?<path>ten(?:\.[a-zA-Z]+)+)(?:=(?<value>.*))?$/.freeze unless const_defined?(:TAG_PATTERN)
+    TAG_PATTERN = /^@(?<path>ten(?:\.[a-zA-Z]+)+)(?:=(?<value>.*))?$/.freeze
 
     attr_reader :internal, :inline_remaps
 
@@ -56,7 +55,7 @@ module Cukewrapper
     private
 
     def scenario_internal(tags)
-      builder = Cukewrapper::Util::HashBuilder.new({})
+      builder = Util::HashBuilder.new({})
       Cukewrapper.log.debug("#{self.class.name}\##{__method__}") { 'Setting scenario metatags' }
       tags.map(&to_captures).each(&builder.build!)
       builder.result

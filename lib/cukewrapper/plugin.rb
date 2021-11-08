@@ -3,15 +3,13 @@
 module Cukewrapper
   # The most based of plugins
   class Plugin
-    unless const_defined?(:PRIORITIES)
-      PRIORITIES = {
-        lowest: -100,
-        low: -10,
-        normal: 0,
-        high: 10,
-        highest: 100
-      }.freeze
-    end
+    PRIORITIES = {
+      lowest: -100,
+      low: -10,
+      normal: 0,
+      high: 10,
+      highest: 100
+    }.freeze
 
     def <=>(other)
       self.class <=> other.class
@@ -48,8 +46,7 @@ module Cukewrapper
       Set.new(out).flatten
     end
 
-    def initialize(config = {})
-      @config = config
+    def initialize
       register_hooks
     end
 

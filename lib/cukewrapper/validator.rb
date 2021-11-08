@@ -5,5 +5,5 @@ module Cukewrapper
   require 'cukewrapper/plugin'
 
   # Ensuring success
-  Validator = Class.new(Cukewrapper::Plugin)
+  Validator = Class.new(Plugin)
 end
