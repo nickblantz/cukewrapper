@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'cukewrapper/config'
 require 'cukewrapper/hooks'
 require 'cukewrapper/plugin_manager'
 require 'cukewrapper/metatags'
@@ -39,7 +38,7 @@ module Cukewrapper
     def self.step_handler_internal(*args)
       return if args.empty?
 
-      Cukewrapper.log.debug("Cukewrapper::Runtime\##{__method__}") { 'Adding datatable' }
+      LOGGER.debug("Cukewrapper::Runtime\##{__method__}") { 'Adding datatable' }
       @datatables << args[0].raw
     end
 
@@ -61,7 +60,7 @@ module Cukewrapper
 
     def self.run_plugin
       lambda do |plugin|
-        Cukewrapper.log.debug("Cukewrapper::Runtime\##{__method__}") { "Executing plugin: #{plugin}" }
+        LOGGER.debug("Cukewrapper::Runtime\##{__method__}") { plugin.class.name }
         plugin.run(@context)
       end
     end

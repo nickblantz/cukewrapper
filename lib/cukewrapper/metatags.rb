@@ -8,7 +8,7 @@ module Cukewrapper
     def initialize(tags)
       @internal = {}
       build_hash!(@internal, tags)
-      Cukewrapper.log.debug("#{self.class.name}\##{__method__}") { "Initialized: #{@internal}" }
+      LOGGER.debug("#{self.class.name}\##{__method__}") { @internal.inspect }
     end
 
     def [](key)

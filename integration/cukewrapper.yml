@@ -1,6 +1,9 @@
 plugins:
 - mock
 - data
+logger:
+  global:
+    level: debug
 mock:
   endpoint: http://localhost:8080
 data:

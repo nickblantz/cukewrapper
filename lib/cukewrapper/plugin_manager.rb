@@ -10,7 +10,7 @@ module Cukewrapper
   class PluginManager
     def initialize
       @plugins = load_plugins
-      Cukewrapper.log.debug("#{self.class.name}\##{__method__}") { "Loaded with: #{@plugins.join(', ')}" }
+      LOGGER.debug("#{self.class.name}\##{__method__}") { @plugins.inspect }
     end
 
     def loaded?
@@ -35,7 +35,7 @@ module Cukewrapper
 
     def instantiate_plugin(klass)
       klass.descendants.sort.map do |plugin|
-        Cukewrapper.log.debug("#{self.class.name}\##{__method__}") { "Instantiate Plugin: #{plugin}" }
+        LOGGER.debug("#{self.class.name}\##{__method__}") { plugin }
         plugin.new
       end
     end
