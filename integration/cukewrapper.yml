@@ -2,6 +2,6 @@ logger:
   global:
     level: debug
 rapidapi:
-  context: '5794177'
-  location: AWS-US-EAST-1
-  environment: environment_1fbb1adc-9e95-4a97-92c5-62558386b361
+  context: 'FILL_ME_IN'
+  location: FILL_ME_IN
+  environment: FILL_ME_IN
