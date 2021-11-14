@@ -15,7 +15,6 @@ gem 'cukewrapper'
 group :cukewrapper_plugins do
   gem 'cukewrapper_data'
   gem 'cukewrapper_inline_jsonpath'
-  gem 'cukewrapper_mocktarget'
   # ...
 end
 ```
@@ -25,14 +24,9 @@ end
 Create a `cukewrapper.yml` file at the root of your directory
 
 ```yaml
-plugins:
-- mock
-- data
-mock:
-  endpoint: http://localhost:8080
-data:
-  mode: json
-  inline_remap: jsonpath
+logger:
+  global:
+    level: debug
 ```
 
 Require the gem in your Cucumber test suite
@@ -44,7 +38,7 @@ require 'cukewrapper'
 ## Example Feature
 
 ```gherkin
-@ten.mock.managed @ten.mock.pid=000000
+@ten.mock.pid=000000
 Feature: Example feature
 
 # Other Scenario Tags
@@ -53,7 +47,9 @@ Feature: Example feature
 # @ten.fail
 
 @QA @UI @Example
-@ten.mock.tid=000000 @ten.data.source=./data/example.json @ten.data.remap=./data/example_remap.rb
+@ten.mock.tid=000000
+@ten.data.source=./data/example.json
+@ten.data.remap=./data/example_remap.rb
 Scenario Outline: Example Scenario
     Given I am doing something in my app
      When I try to do it
@@ -66,15 +62,15 @@ Scenario Outline: Example Scenario
         | $.items[*].price                   | 10.00              |
         # The item at index 1                # Merging a Hash     #
         | $.items[1]                         | ~#{'price'=>20.00} |
-        # Each item named Tito's kind        # Does nothing       #
-        | $.items[?(@.name == 'Lays')].kind  | ~"Chips"           |
+        # Each item named Tito's kind        # Removes the key    #
+        | $.items[?(@.name == 'Lays')].kind  |                    |
 
 Examples:
-    | basketName                                                   | date         | coupons                   |
-    # Using Faker to generate initials                             # Current time # Merging Array             #
-    | #Faker::Name.initials(number: 2) + "'s Shoppe"               | #Time.now    | ~["604222ac", "eb3f6967"] |
-    # Creating a Hash using Faker                                  # Sets to null # "Do Nothing" merge        #
-    | #{ name: "#{Faker::Name.first_name}'s Shoppe", type: 'LLC' } |              | ~                         |
+    | basketName                                                   | date                 | coupons                   |
+    # Using Faker to generate initials                             # Current time         # Merging Array             #
+    | #Faker::Name.initials(number: 2) + "'s Shoppe"               | #Time.now            | ~["604222ac", "eb3f6967"] |
+    # Creating a Hash using Faker                                  # Tomorrow's date      # "Do Nothing" merge        #
+    | #{ name: "#{Faker::Name.first_name}'s Shoppe", type: 'LLC' } | #(Date.today+1).to_s | ~                         |
 ```
 
 ## Development

@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'cukewrapper/hooks'
-require 'cukewrapper/plugin_manager'
-require 'cukewrapper/metatags'
-
 module Cukewrapper
   # Runs things around here
   module Runtime
+    require 'cukewrapper/hooks'
+    require 'cukewrapper/plugin_manager'
+    require 'cukewrapper/metatags'
+
     STEP_PATTERN = /^.*$/.freeze
     PLUGIN_MANAGER = PluginManager.new
 
@@ -25,7 +25,7 @@ module Cukewrapper
     def self.before_scenario_internal(scenario)
       Runtime.reset
       Hooks.trigger(:before_scenario, @context, scenario)
-      @metatags = Metatags.new scenario.tags
+      @metatags = Metatags.build scenario.tags
       Hooks.trigger(:after_metatags, @context, @metatags)
     end
 

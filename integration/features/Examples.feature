@@ -1,4 +1,3 @@
-@ten.mock.managed @ten.mock.pid=000000
 Feature: Example feature
 
 # Other Scenario Tags
@@ -7,7 +6,9 @@ Feature: Example feature
 # @ten.fail
 
 @QA @UI @Example
-@ten.mock.tid=000000 @ten.data.source=./data/example.json @ten.data.remap=./data/example_remap.rb
+@ten.rapid.tid=113fb921-f125-4717-93fe-77c0af8fcb76
+@ten.data.source=./data/example.json
+@ten.data.remap=./data/example_remap.rb
 Scenario Outline: Example Scenario
     Given I am doing something in my app
      When I try to do it
@@ -20,12 +21,12 @@ Scenario Outline: Example Scenario
         | $.items[*].price                   | 10.00              |
         # The item at index 1                # Merging a Hash     #
         | $.items[1]                         | ~#{'price'=>20.00} |
-        # Each item named Tito's kind        # Does nothing       #
-        | $.items[?(@.name == 'Lays')].kind  | ~"Chips"           |
+        # Each item named Tito's kind        # Removes the key    #
+        | $.items[?(@.name == 'Lays')].kind  |                    |
 
 Examples:
-    | basketName                                                   | date         | coupons                   |
-    # Using Faker to generate initials                             # Current time # Merging Array             #
-    | #Faker::Name.initials(number: 2) + "'s Shoppe"               | #Time.now    | ~["604222ac", "eb3f6967"] |
-    # Creating a Hash using Faker                                  # Sets to null # "Do Nothing" merge        #
-    | #{ name: "#{Faker::Name.first_name}'s Shoppe", type: 'LLC' } |              | ~                         |
+    | basketName                                                   | date                 | coupons                   |
+    # Using Faker to generate initials                             # Current time         # Merging Array             #
+    | #Faker::Name.initials(number: 2) + "'s Shoppe"               | #Time.now            | ~["604222ac", "eb3f6967"] |
+    # Creating a Hash using Faker                                  # Tomorrow's date      # "Do Nothing" merge        #
+    | #{ name: "#{Faker::Name.first_name}'s Shoppe", type: 'LLC' } | #(Date.today+1).to_s | ~                         |

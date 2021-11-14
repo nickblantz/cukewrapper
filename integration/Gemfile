@@ -7,5 +7,5 @@ gem 'cukewrapper', path: '..'
 group :cukewrapper_plugins do
   gem 'cukewrapper_data', path: '../../cukewrapper_data'
   gem 'cukewrapper_inline_jsonpath', path: '../../cukewrapper_inline_jsonpath'
-  gem 'cukewrapper_mocktarget', path: '../../cukewrapper_mocktarget'
+  gem 'cukewrapper_rapidapi', path: '../../cukewrapper_rapidapi'
 end

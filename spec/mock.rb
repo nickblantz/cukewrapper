@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Mock Cukewrapper
 module Cukewrapper
   require 'logger'
 

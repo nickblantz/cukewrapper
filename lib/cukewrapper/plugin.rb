@@ -3,6 +3,8 @@
 module Cukewrapper
   # The most based of plugins
   class Plugin
+    require 'set'
+
     PRIORITIES = {
       lowest: -100,
       low: -10,

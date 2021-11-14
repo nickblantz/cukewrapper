@@ -3,6 +3,7 @@
 require 'cukewrapper/metatags'
 
 module Mock
+  # Mock Cucumber Tag
   class MockTag
     attr_accessor :name
 
@@ -14,12 +15,12 @@ end
 
 RSpec.describe Cukewrapper::Metatags do
   it 'succeeds when no tags are present' do
-    metatags = Cukewrapper::Metatags.new([])
+    metatags = Cukewrapper::Metatags.build([])
     expect(metatags.to_hash).to eq({})
   end
 
   it 'ignores incorrectly formatted tags' do
-    metatags = Cukewrapper::Metatags.new([
+    metatags = Cukewrapper::Metatags.build([
       Mock::MockTag.new('@wrong.a.b'),
       Mock::MockTag.new('@ten'),
       Mock::MockTag.new('@ten.'),
@@ -32,7 +33,7 @@ RSpec.describe Cukewrapper::Metatags do
   end
 
   context 'when valid tags are present' do
-    metatags = Cukewrapper::Metatags.new([
+    metatags = Cukewrapper::Metatags.build([
       Mock::MockTag.new('@ten.mock.managed'),
       Mock::MockTag.new('@ten.mock.tid=000000'),
       Mock::MockTag.new('@ten.data.source=./data/example.json')
