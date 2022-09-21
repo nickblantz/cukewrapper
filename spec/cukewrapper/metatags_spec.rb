@@ -22,21 +22,21 @@ RSpec.describe Cukewrapper::Metatags do
   it 'ignores incorrectly formatted tags' do
     metatags = Cukewrapper::Metatags.build([
       Mock::MockTag.new('@wrong.a.b'),
-      Mock::MockTag.new('@ten'),
-      Mock::MockTag.new('@ten.'),
-      Mock::MockTag.new('@ten.0'),
-      Mock::MockTag.new('@ten._'),
-      Mock::MockTag.new('@ten.-'),
-      Mock::MockTag.new('@ten.a.')
+      Mock::MockTag.new('@cw'),
+      Mock::MockTag.new('@cw.'),
+      Mock::MockTag.new('@cw.0'),
+      Mock::MockTag.new('@cw._'),
+      Mock::MockTag.new('@cw.-'),
+      Mock::MockTag.new('@cw.a.')
     ])
     expect(metatags.to_hash).to eq({})
   end
 
   context 'when valid tags are present' do
     metatags = Cukewrapper::Metatags.build([
-      Mock::MockTag.new('@ten.mock.managed'),
-      Mock::MockTag.new('@ten.mock.tid=000000'),
-      Mock::MockTag.new('@ten.data.source=./data/example.json')
+      Mock::MockTag.new('@cw.mock.managed'),
+      Mock::MockTag.new('@cw.mock.tid=000000'),
+      Mock::MockTag.new('@cw.data.source=./data/example.json')
     ])
 
     it 'parses them correctly' do

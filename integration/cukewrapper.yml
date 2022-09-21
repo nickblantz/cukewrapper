@@ -5,3 +5,5 @@ rapidapi:
   context: 'FILL_ME_IN'
   location: FILL_ME_IN
   environment: FILL_ME_IN
+functionize:
+  project: FILL_ME_IN

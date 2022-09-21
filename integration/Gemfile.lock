@@ -6,6 +6,14 @@ PATH
       json (~> 2.0)
 
 PATH
+  remote: ../../cukewrapper_functionize
+  specs:
+    cukewrapper_functionize (0.1.0)
+      cukewrapper (~> 0.0)
+      httparty (~> 0.0)
+      json (~> 2.0)
+
+PATH
   remote: ../../cukewrapper_inline_jsonpath
   specs:
     cukewrapper_inline_jsonpath (0.1.0)
@@ -49,7 +57,7 @@ GEM
       cucumber-gherkin (~> 22.0, >= 22.0.0)
       cucumber-messages (~> 17.1, >= 17.1.1)
       cucumber-tag-expressions (~> 4.0, >= 4.0.2)
-    cucumber-create-meta (6.0.2)
+    cucumber-create-meta (6.0.4)
       cucumber-messages (~> 17.1, >= 17.1.1)
       sys-uname (~> 1.2, >= 1.2.2)
     cucumber-cucumber-expressions (14.0.0)
@@ -63,6 +71,8 @@ GEM
       cucumber-core (~> 10.1, >= 10.1.0)
       cucumber-cucumber-expressions (~> 14.0, >= 14.0.0)
       cucumber-messages (~> 17.1, >= 17.1.1)
+    cuke_modeler (3.15.0)
+      cucumber-gherkin (< 23.0)
     diff-lcs (1.4.4)
     faker (2.19.0)
       i18n (>= 1.6, < 2)
@@ -75,12 +85,15 @@ GEM
     json (2.6.1)
     jsonpath (1.1.0)
       multi_json
-    mime-types (3.3.1)
+    mime-types (3.4.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2021.0901)
+    mime-types-data (3.2021.1115)
     multi_json (1.15.0)
     multi_test (0.1.2)
     multi_xml (0.6.0)
+    parallel (1.21.0)
+    parallel_tests (3.7.3)
+      parallel
     sys-uname (1.2.2)
       ffi (~> 1.1)
 
@@ -88,10 +101,14 @@ PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
+  cuke_modeler (~> 3.0)
   cukewrapper!
   cukewrapper_data!
+  cukewrapper_functionize!
   cukewrapper_inline_jsonpath!
   cukewrapper_rapidapi!
+  faker
+  parallel_tests
 
 BUNDLED WITH
    2.2.22

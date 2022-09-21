@@ -7,7 +7,7 @@ module Cukewrapper
     require 'cukewrapper/plugin_manager'
     require 'cukewrapper/metatags'
 
-    STEP_PATTERN = /^.*$/.freeze
+    STEP_PATTERN = /^\W*>\W*.*$/.freeze
     PLUGIN_MANAGER = PluginManager.new
 
     def self.reset

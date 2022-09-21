@@ -3,7 +3,7 @@
 module Cukewrapper
   # Super meta bro
   module Metatags
-    TAG_PATTERN = /^@(?<path>ten(?:\.[a-zA-Z]+)+)(?:=(?<value>.*))?$/.freeze
+    TAG_PATTERN = /^@(?<path>cw(?:\.[a-zA-Z]+)+)(?:=(?<value>.*))?$/.freeze
 
     def self.build(tags)
       result = {}

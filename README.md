@@ -38,18 +38,18 @@ require 'cukewrapper'
 ## Example Feature
 
 ```gherkin
-@ten.mock.pid=000000
+@cw.mock.pid=000000
 Feature: Example feature
 
 # Other Scenario Tags
-# @ten.negate
-# @ten.succeed
-# @ten.fail
+# @cw.negate
+# @cw.succeed
+# @cw.fail
 
 @QA @UI @Example
-@ten.mock.tid=000000
-@ten.data.source=./data/example.json
-@ten.data.remap=./data/example_remap.rb
+@cw.mock.tid=000000
+@cw.data.source=./data/example.json
+@cw.data.remap=./data/example_remap.rb
 Scenario Outline: Example Scenario
     Given I am doing something in my app
      When I try to do it

@@ -11,7 +11,7 @@ module Cukewrapper
     def self.set_logger(key = nil, *args)
       key ||= :global
       @loggers[key] = Logger.new(Cukewrapper::LOG_FILE, *args)
-      @loggers[key].level = Cukewrapper::CONFIG&.dig('logger')&.dig(key.to_s)&.dig('level') || :info
+      @loggers[key].level = Cukewrapper::CONFIG.dig('logger', key.to_s, 'level') || :info
       @loggers[key]
     end
 
