@@ -12,6 +12,7 @@ Gem::Specification.new do |spec|
   spec.homepage = 'https://github.com/nickblantz'
   spec.license = 'MIT'
   spec.required_ruby_version = Gem::Requirement.new('>= 2.6.0')
+  spec.require_path = 'lib'
   spec.files = Dir[
     'lib/**/*',
     'README.md',
@@ -22,5 +23,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop', '~> 1.0'
   spec.add_development_dependency 'rubocop-rake', '~> 0.0'
   spec.add_development_dependency 'rubocop-rspec', '~> 2.0'
-  spec.add_runtime_dependency 'cucumber', '~> 3.0'
+  spec.add_runtime_dependency 'cucumber', '>= 3.0'
 end
