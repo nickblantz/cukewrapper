@@ -6,5 +6,5 @@ module Cukewrapper
 
   CONFIG_FILE = 'cukewrapper.yml'
   LOG_FILE = 'cukewrapper.log'
-  CONFIG = YAML.load_file(CONFIG_FILE) if File.file?(CONFIG_FILE)
+  CONFIG = File.file?(CONFIG_FILE) ? YAML.load_file(CONFIG_FILE) : raise("Could not find #{CONFIG_FILE}")
 end
