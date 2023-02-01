@@ -16,6 +16,10 @@ module Cukewrapper
       @plugins = PLUGIN_MANAGER.instantiate_plugins
     end
 
+    def self.register_world(world)
+      @world = world
+    end
+
     def self.before_scenario
       lambda do |scenario|
         Runtime.before_scenario_internal(scenario)
@@ -63,6 +67,10 @@ module Cukewrapper
         LOGGER.debug("Cukewrapper::Runtime\##{__method__}") { plugin.class.name }
         plugin.run(@context)
       end
+    end
+
+    def self.world
+      @world
     end
   end
 end
