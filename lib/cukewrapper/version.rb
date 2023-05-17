@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module Cukewrapper
-  VERSION = '0.2.0'
+  VERSION = '0.3.0.unified.config'
 end

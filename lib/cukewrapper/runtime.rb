@@ -38,7 +38,7 @@ module Cukewrapper
     def self.step_handler_internal(*args)
       return if args.empty?
 
-      LOGGER.debug("Cukewrapper::Runtime\##{__method__}") { 'Adding datatable' }
+      LOGGER.debug("Cukewrapper::Runtime##{__method__}") { 'Adding datatable' }
       @datatables << args[0].raw
     end
 
@@ -60,7 +60,7 @@ module Cukewrapper
 
     def self.run_plugin
       lambda do |plugin|
-        LOGGER.debug("Cukewrapper::Runtime\##{__method__}") { plugin.class.name }
+        LOGGER.debug("Cukewrapper::Runtime##{__method__}") { plugin.class.name }
         plugin.run(@context)
       end
     end

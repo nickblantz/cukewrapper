@@ -8,6 +8,7 @@ Gem::Specification.new do |spec|
   spec.authors = ['Nick Blantz']
   spec.email = ['nicholasblantz@gmail.com']
   spec.summary = 'Provides a wrapper for online testing tools with Cucumber'
+  spec.metadata = { 'rubygems_mfa_required' => 'true' }
   spec.description = File.read('README.md')
   spec.homepage = 'https://github.com/nickblantz'
   spec.license = 'MIT'
@@ -17,10 +18,5 @@ Gem::Specification.new do |spec|
     'README.md',
     'LICENSE'
   ]
-  spec.add_development_dependency 'rake', '~> 12.0'
-  spec.add_development_dependency 'rspec', '~> 3.0'
-  spec.add_development_dependency 'rubocop', '~> 1.0'
-  spec.add_development_dependency 'rubocop-rake', '~> 0.0'
-  spec.add_development_dependency 'rubocop-rspec', '~> 2.0'
   spec.add_runtime_dependency 'cucumber', '~> 7.0'
 end

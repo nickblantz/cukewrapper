@@ -33,7 +33,7 @@ module Cukewrapper
     def self.register(name, event, priority: DEFAULT_PRIORITY, &block)
       raise 'Hooks must respond to :call' unless block.respond_to? :call
 
-      LOGGER.debug("Cukewrapper::Hooks\##{__method__}") { event }
+      LOGGER.debug("Cukewrapper::Hooks##{__method__}") { event }
       priority = priority_value(priority)
       @hook_priority[name] = [-priority, @hook_priority.size]
       @registry[event][name] = block
@@ -41,7 +41,7 @@ module Cukewrapper
 
     def self.trigger(event, *args)
       hooks = @registry[event]
-      LOGGER.debug("Cukewrapper::Hooks\##{__method__}") { event }
+      LOGGER.debug("Cukewrapper::Hooks##{__method__}") { event }
       return if hooks.nil? || hooks.empty?
 
       hooks.sort_by { |name, _| @hook_priority[name] }.each do |_, hook|

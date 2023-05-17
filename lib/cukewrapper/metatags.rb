@@ -8,7 +8,7 @@ module Cukewrapper
     def self.build(tags)
       result = {}
       tags.map(&to_captures).each(&build!(result))
-      LOGGER.debug("Cukewrapper::Metatags\##{__method__}") { result.inspect }
+      LOGGER.debug("Cukewrapper::Metatags##{__method__}") { result.inspect }
       result
     end
 

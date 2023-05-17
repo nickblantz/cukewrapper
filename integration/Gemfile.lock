@@ -2,44 +2,32 @@ PATH
   remote: ../../cukewrapper_data
   specs:
     cukewrapper_data (0.1.0)
-      cukewrapper (~> 0.0)
       json (~> 2.0)
 
 PATH
   remote: ../../cukewrapper_functionize
   specs:
-    cukewrapper_functionize (0.1.0)
-      cukewrapper (~> 0.0)
+    cukewrapper_functionize (0.3.0.unified.config)
       httparty (~> 0.0)
       json (~> 2.0)
 
 PATH
-  remote: ../../cukewrapper_inline_jsonpath
-  specs:
-    cukewrapper_inline_jsonpath (0.1.0)
-      cukewrapper (~> 0.0)
-      faker (~> 2.0)
-      jsonpath (~> 1.0)
-
-PATH
   remote: ../../cukewrapper_rapidapi
   specs:
-    cukewrapper_rapidapi (0.1.0)
-      cukewrapper (~> 0.0)
+    cukewrapper_rapidapi (0.3.0.unified.config)
       httparty (~> 0.0)
       json (~> 2.0)
 
 PATH
   remote: ..
   specs:
-    cukewrapper (0.1.0)
+    cukewrapper (0.3.0.unified.config)
       cucumber (~> 7.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
     builder (3.2.4)
-    concurrent-ruby (1.1.9)
     cucumber (7.1.0)
       builder (~> 3.2, >= 3.2.4)
       cucumber-core (~> 10.1, >= 10.1.0)
@@ -53,10 +41,10 @@ GEM
       mime-types (~> 3.3, >= 3.3.1)
       multi_test (~> 0.1, >= 0.1.2)
       sys-uname (~> 1.2, >= 1.2.2)
-    cucumber-core (10.1.0)
+    cucumber-core (10.1.1)
       cucumber-gherkin (~> 22.0, >= 22.0.0)
       cucumber-messages (~> 17.1, >= 17.1.1)
-      cucumber-tag-expressions (~> 4.0, >= 4.0.2)
+      cucumber-tag-expressions (~> 4.1, >= 4.1.0)
     cucumber-create-meta (6.0.4)
       cucumber-messages (~> 17.1, >= 17.1.1)
       sys-uname (~> 1.2, >= 1.2.2)
@@ -67,37 +55,30 @@ GEM
       cucumber-messages (~> 17.1, >= 17.1.0)
     cucumber-messages (17.1.1)
     cucumber-tag-expressions (4.1.0)
-    cucumber-wire (6.2.0)
+    cucumber-wire (6.2.1)
       cucumber-core (~> 10.1, >= 10.1.0)
       cucumber-cucumber-expressions (~> 14.0, >= 14.0.0)
-      cucumber-messages (~> 17.1, >= 17.1.1)
     cuke_modeler (3.15.0)
       cucumber-gherkin (< 23.0)
-    diff-lcs (1.4.4)
-    faker (2.19.0)
-      i18n (>= 1.6, < 2)
-    ffi (1.15.4-x64-mingw32)
+    diff-lcs (1.5.0)
+    ffi (1.15.5)
     httparty (0.20.0)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
-    i18n (1.8.11)
-      concurrent-ruby (~> 1.0)
     json (2.6.1)
-    jsonpath (1.1.0)
-      multi_json
     mime-types (3.4.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2021.1115)
-    multi_json (1.15.0)
     multi_test (0.1.2)
     multi_xml (0.6.0)
     parallel (1.21.0)
     parallel_tests (3.7.3)
       parallel
-    sys-uname (1.2.2)
+    sys-uname (1.2.3)
       ffi (~> 1.1)
 
 PLATFORMS
+  ruby
   x64-mingw32
 
 DEPENDENCIES
@@ -105,9 +86,7 @@ DEPENDENCIES
   cukewrapper!
   cukewrapper_data!
   cukewrapper_functionize!
-  cukewrapper_inline_jsonpath!
   cukewrapper_rapidapi!
-  faker
   parallel_tests
 
 BUNDLED WITH

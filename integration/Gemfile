@@ -2,13 +2,13 @@
 
 source 'https://rubygems.org'
 
-gem 'parallel_tests'
 gem 'cuke_modeler', '~> 3.0'
 gem 'cukewrapper', path: '..'
+gem 'parallel_tests'
 
 group :cukewrapper_plugins do
   gem 'cukewrapper_data', path: '../../cukewrapper_data'
-  gem 'cukewrapper_inline_jsonpath', path: '../../cukewrapper_inline_jsonpath'
-  gem 'cukewrapper_rapidapi', path: '../../cukewrapper_rapidapi'
   gem 'cukewrapper_functionize', path: '../../cukewrapper_functionize'
+  # gem 'cukewrapper_inline_jsonpath', path: '../../cukewrapper_inline_jsonpath'
+  gem 'cukewrapper_rapidapi', path: '../../cukewrapper_rapidapi'
 end

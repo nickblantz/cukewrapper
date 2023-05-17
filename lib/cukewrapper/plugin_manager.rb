@@ -10,7 +10,7 @@ module Cukewrapper
   class PluginManager
     def initialize
       @plugins = load_plugins
-      LOGGER.debug("#{self.class.name}\##{__method__}") { @plugins.inspect }
+      LOGGER.debug("#{self.class.name}##{__method__}") { @plugins.inspect }
     end
 
     def loaded?
@@ -35,7 +35,7 @@ module Cukewrapper
 
     def instantiate_plugin(klass)
       klass.descendants.sort.map do |plugin|
-        LOGGER.debug("#{self.class.name}\##{__method__}") { plugin }
+        LOGGER.debug("#{self.class.name}##{__method__}") { plugin }
         plugin.new
       end
     end
@@ -58,7 +58,8 @@ module Cukewrapper
     end
 
     def gemfile_exists?
-      File.file?('Gemfile') || (ENV['BUNDLE_GEMFILE'] && File.file?(ENV['BUNDLE_GEMFILE']))
+      bundle_gemfile = ENV.fetch('BUNDLE_GEMFILE', nil)
+      File.file?('Gemfile') || (bundle_gemfile && File.file?(bundle_gemfile))
     end
 
     def to_plugin_name

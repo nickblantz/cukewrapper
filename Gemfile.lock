@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cukewrapper (0.1.0)
+    cukewrapper (0.3.0.unified.config)
       cucumber (~> 7.0)
 
 GEM
@@ -22,11 +22,11 @@ GEM
       mime-types (~> 3.3, >= 3.3.1)
       multi_test (~> 0.1, >= 0.1.2)
       sys-uname (~> 1.2, >= 1.2.2)
-    cucumber-core (10.1.0)
+    cucumber-core (10.1.1)
       cucumber-gherkin (~> 22.0, >= 22.0.0)
       cucumber-messages (~> 17.1, >= 17.1.1)
-      cucumber-tag-expressions (~> 4.0, >= 4.0.2)
-    cucumber-create-meta (6.0.2)
+      cucumber-tag-expressions (~> 4.1, >= 4.1.0)
+    cucumber-create-meta (6.0.4)
       cucumber-messages (~> 17.1, >= 17.1.1)
       sys-uname (~> 1.2, >= 1.2.2)
     cucumber-cucumber-expressions (14.0.0)
@@ -36,15 +36,15 @@ GEM
       cucumber-messages (~> 17.1, >= 17.1.0)
     cucumber-messages (17.1.1)
     cucumber-tag-expressions (4.1.0)
-    cucumber-wire (6.2.0)
+    cucumber-wire (6.2.1)
       cucumber-core (~> 10.1, >= 10.1.0)
       cucumber-cucumber-expressions (~> 14.0, >= 14.0.0)
-      cucumber-messages (~> 17.1, >= 17.1.1)
     diff-lcs (1.4.4)
-    ffi (1.15.4-x64-mingw32)
-    mime-types (3.3.1)
+    ffi (1.15.5)
+    ffi (1.15.5-x64-mingw32)
+    mime-types (3.4.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2021.0901)
+    mime-types-data (3.2023.0218.1)
     multi_test (0.1.2)
     parallel (1.19.1)
     parser (3.0.2.0)
@@ -83,11 +83,12 @@ GEM
     rubocop-rspec (2.6.0)
       rubocop (~> 1.19)
     ruby-progressbar (1.10.1)
-    sys-uname (1.2.2)
+    sys-uname (1.2.3)
       ffi (~> 1.1)
     unicode-display_width (1.6.1)
 
 PLATFORMS
+  ruby
   x64-mingw32
 
 DEPENDENCIES

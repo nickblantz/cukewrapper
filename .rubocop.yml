@@ -12,7 +12,8 @@ Layout/EndOfLine:
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
+
 Metrics/MethodLength:
   Max: 12
 Metrics/BlockLength:
-  IgnoredMethods: ['describe', 'context']
+  AllowedMethods: ['describe', 'context']
