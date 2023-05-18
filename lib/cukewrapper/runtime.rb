@@ -8,6 +8,8 @@ module Cukewrapper
     require 'cukewrapper/metatags'
 
     STEP_PATTERN = /^\W*>\W*.*$/.freeze
+    CONFIG = Config.load_config
+    LOGGER = LagerRegistry.set_logger
     PLUGIN_MANAGER = PluginManager.new
 
     def self.reset

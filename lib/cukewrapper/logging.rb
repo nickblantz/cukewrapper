@@ -20,6 +20,4 @@ module Cukewrapper
       @loggers[key]
     end
   end
-
-  LOGGER = LagerRegistry.set_logger
 end
